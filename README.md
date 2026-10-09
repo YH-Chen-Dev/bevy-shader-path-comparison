@@ -20,7 +20,7 @@ Each case includes both sides of the comparison: a WGSL material version and a R
 | [`wgsl-material-path/`](wgsl-material-path/) | WGSL-based Bevy material examples and local WGSL shader assets. |
 | [`rust-gpu-plugin-path/`](rust-gpu-plugin-path/) | Rust-GPU plugin-based path, including the Rust shader workspace and Bevy examples that load the generated shader artifact. |
 | [`assets/results/`](assets/results/) | Rendered comparison results from the WGSL and Rust-GPU plugin-based paths. |
-| [`benchmark-results/`](benchmark-results/) | Raw [`hyperfine`](https://github.com/sharkdp/hyperfine) outputs for the command-level benchmark notes. |
+| [`reproduction-timing-results/`](reproduction-timing-results/) | Raw [`hyperfine`](https://github.com/sharkdp/hyperfine) outputs for the command-level reproduction timings. |
 
 ## Pipeline Comparison
 The table below compares how the WGSL material path and the Rust-GPU plugin-based path are organized, from shader authoring and material setup to Bevy rendering and the final cube output.
@@ -53,17 +53,15 @@ This case provides a direct shader-data mapping in the comparison: world-positio
 
 Sources: [WGSL app setup](wgsl-material-path/apps/case2-wgsl-app.rs), [WGSL shader](wgsl-material-path/assets/shaders/case2/case2-gradient-wgsl.wgsl), [Rust-GPU app setup](rust-gpu-plugin-path/bevy-app/apps/case2-rust-app.rs), [Rust-GPU shader](rust-gpu-plugin-path/rust-gpu/crates/shader/src/case2-gradient-rust.rs)
 
-## Benchmark Notes
-These measurements are command-level reproduction timings. All Bevy app commands were run in release mode, and each app exits automatically after one second. The raw timings include this one-second runtime window along with process startup, Bevy startup, asset loading, render setup, and shutdown overhead.
+## Reproduction Timing Notes
+These are command-level wall-clock timings for reproducing the examples, not measurements of shader runtime, frame rendering, or GPU performance. All Bevy apps were run in release mode and configured to exit after one second. The timings include this runtime window along with startup, asset loading, render setup, and shutdown overhead.
 
 | Path | Case 1 | Case 2 |
 |---|---:|---:|
 | WGSL material path | 1.608 ± 0.018 s | 1.605 ± 0.014 s |
 | Rust-GPU plugin-based path | 1.704 ± 0.047 s | 1.696 ± 0.028 s |
 
-The Rust-GPU plugin-based path also has a separate shader artifact build command, measured at 0.786 ± 0.024 s in this run. This command produces the generated shader artifact used by the Bevy app examples, and the raw [`hyperfine`](https://github.com/sharkdp/hyperfine) outputs are kept in [`benchmark-results/`](./benchmark-results/).
-
-> These timings are included to document the reproduction commands for the examples in this repository, not to compare shader runtime or frame rendering performance.
+The Rust-GPU plugin-based path also requires a separate shader artifact build command, measured at 0.786 ± 0.024 s in this run. Raw [`hyperfine`](https://github.com/sharkdp/hyperfine) results are available in [`reproduction-timing-results/`](./reproduction-timing-results/).
 
 ## Reproduction Notes
 Build and run commands are documented in the path-specific READMEs:

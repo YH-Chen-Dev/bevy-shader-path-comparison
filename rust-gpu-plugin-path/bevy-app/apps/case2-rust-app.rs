@@ -23,6 +23,9 @@ fn main() {
     app.add_plugin(RustGpuPlugin::default());
     app.add_plugin(RustGpuMaterialPlugin::<Case2RustMaterial>::default());
 
+    std::fs::create_dir_all("generated/rust-gpu")
+        .expect("Failed to create Rust-GPU entry point directory");
+
     // Export the entry point metadata used by the Rust-GPU pipeline.
     RustGpu::<Case2RustMaterial>::export_to(ENTRY_POINTS_PATH);
 
