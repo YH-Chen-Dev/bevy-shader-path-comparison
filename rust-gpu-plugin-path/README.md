@@ -1,5 +1,5 @@
 # Rust-GPU Plugin Path
-This directory contains the Rust-GPU plugin-based path used in the shader path comparison project. The path is split into two parts:
+This directory contains the Rust-GPU plugin-based path, which uses the existing [`bevy-rust-gpu`](https://github.com/Bevy-Rust-GPU/bevy-rust-gpu) plugin to integrate Rust-GPU shader artifacts into Bevy. The path is split into two parts:
 
 - [`rust-gpu/`](./rust-gpu/) builds the Rust shader crate into a runtime shader artifact.
 - [`bevy-app/`](./bevy-app/) runs the Bevy examples that load and apply the generated shader artifact.
@@ -52,5 +52,5 @@ rust-gpu/spirt-passes/
 
 ## Notes
 - [`rust-gpu-builder`](./rust-gpu/crates/rust-gpu-builder/) is tracked as a submodule.
-- [`rust-toolchain`](./rust-gpu/rust-toolchain) pins the Rust toolchain used by this path.
+- [`rust-toolchain`](./rust-gpu/rust-toolchain) pins the toolchain used by the Rust-GPU shader workspace.
 - Runtime verification for this directory focuses on whether the shader artifact builds, the Bevy examples launch, the generated shader artifact is applied through the configured entry points, and the corresponding cube demo scenes render.

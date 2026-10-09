@@ -1,10 +1,20 @@
 # Bevy Shader Path Comparison
-This repository documents a Bevy shader-path comparison between a WGSL material path and a Rust-GPU plugin-based path, presenting two paired cube material cases with each implemented through both paths. It is a later reorganization of work preserved in the original WGSL and Rust-GPU repositories, together with historical project documentation. The work originated in a four-person university capstone project conducted from September 2022 to June 2023.
+This repository compares two Bevy shader integration workflows: a WGSL material path and a Rust-GPU plugin-based path that uses the existing [`bevy-rust-gpu`](https://github.com/Bevy-Rust-GPU/bevy-rust-gpu) plugin. Both workflows are demonstrated through two paired cube material cases.
+
+This is a later reorganization of work preserved in the original WGSL and Rust-GPU repositories, together with historical project documentation. The work originated in a four-person university capstone project conducted from September 2022 to June 2023.
+
+## Quick Navigation
+- [What Was Built](#what-was-built)
+- [Pipeline Comparison](#pipeline-comparison)
+- [Case 1: Dynamic Oklab Color-Mixing Material](#case-1-dynamic-oklab-color-mixing-material)
+- [Case 2: Static World-Position Gradient Material](#case-2-static-world-position-gradient-material)
+- [Reproduction Notes](#reproduction-notes)
+- [My Contribution](#my-contribution)
 
 ## Why This Project Compared These Paths
-Rendering was chosen as the technical focus because shader materials connect shader code, material setup in the engine, shader tooling, and the rendered result. This made shader materials a suitable place to study how rendering logic moves through an engine workflow. In this repository, the workflow is discussed through Bevy’s material system.
+Shader materials were chosen because they connect shader code, material setup, shader tooling, and visible rendering results within Bevy. Implementing the same material cases through two different workflows provides a concrete way to examine how shader authoring, build steps, and engine integration differ.
 
-Within Bevy’s material system, the WGSL material path served as the baseline workflow. Rust-GPU became the second path because it represented the SPIR-V-oriented shader workflow in this comparison: shader logic could be written in Rust, built through Rust-GPU tooling, and connected back to Bevy through the [`bevy-rust-gpu`](https://github.com/Bevy-Rust-GPU/bevy-rust-gpu) plugin. The comparison examined how shader authoring and Bevy integration differed between the two paths.
+The WGSL material path served as the baseline workflow, while Rust-GPU introduced an alternative approach: writing shader logic in Rust, building SPIR-V shader artifacts, and integrating them into Bevy through the existing [`bevy-rust-gpu`](https://github.com/Bevy-Rust-GPU/bevy-rust-gpu) plugin. The comparison focuses on these workflow differences rather than GPU rendering performance.
 
 ## What Was Built
 The completed work centers on two paired material demos:
@@ -74,10 +84,16 @@ The Rust-GPU plugin-based path uses [`rust-gpu-builder`](rust-gpu-plugin-path/ru
 git submodule update --init --recursive
 ```
 
+Tested environment: WSL2 Ubuntu 24.04 with Mesa llvmpipe (Vulkan software rendering). Both shader paths were successfully built and visually verified using the repository's locked dependencies and specified Rust-GPU toolchain.
+
+Historical dependency note: This project uses a Bevy 0.10-era dependency stack with pinned Rust-GPU tooling. The examples document the shader integration workflows used in this project and are not intended as references for current Bevy APIs.
+
 ## Project Scope
 - This repository uses existing Rust-GPU and [bevy-rust-gpu](https://github.com/Bevy-Rust-GPU/bevy-rust-gpu) tooling for the Rust-GPU plugin-based path; those external tools are not implemented by this project.
 - The visual comparison results show observable material behavior, not pixel-perfect or formal shader equivalence.
-- The two material cases are comparison examples, not complete coverage of Bevy shader authoring patterns or Rust-GPU capabilities.
+- The two material cases are comparison examples, not a comprehensive demonstration of Bevy shader workflows or Rust-GPU capabilities.
+- The recorded command-level timings do not measure shader execution time, frame time, FPS, or GPU rendering performance.
+- Generating SPIR-V shader artifacts and running the Bevy examples in the tested environment does not establish cross-platform or cross-graphics-API portability.
 
 ## My Contribution
 Within the original four-person capstone project, I was responsible for the programming and technical implementation of the shader comparison. My work focused on investigating and implementing the Rust-GPU shader workflow, generating SPIR-V shader artifacts, and integrating them into Bevy using the existing `bevy-rust-gpu` plugin.
@@ -95,4 +111,4 @@ The shader implementations in this project were developed with reference to Bevy
 The Bevy application setups were developed separately by following official Bevy tutorials and documentation, with iterative implementation, testing, and adjustments for these comparison cases.
 
 ## License
-The project is licensed under the [MIT License](LICENSE).
+Original contributions in this repository are provided under the [MIT License](LICENSE). Parts of the shader implementations are adapted or translated from Bevy's official examples and retain the applicable upstream license terms; see [Third-Party Notices](THIRD_PARTY_NOTICES.md). External dependencies and the Git submodule are licensed separately by their respective upstream projects.
